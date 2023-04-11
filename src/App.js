@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -8,30 +9,38 @@ const App = () => {
     fetchPosts();
   }, []);
   const fetchUserData = () => {
-    fetch("http://localhost:3000/api/users", { method: "GET" })
-      .then((response) => {
-        return response.json();
-      })
+    axios
+      .get("http://localhost:3000/api/users")
       .then((data) => setUsers(data.users))
       .catch((error) => console.log(error));
+    // fetch("http://localhost:3000/api/users", { method: "GET" })
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => setUsers(data.users))
+    //   .catch((error) => console.log(error));
   };
 
   const fetchPosts = () => {
-    fetch("https://jsonplaceholder.typicode.com/posts", { method: "GET" })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setPosts(data);
-      })
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => setPosts(response.data))
       .catch((error) => console.log(error));
+    // fetch("https://jsonplaceholder.typicode.com/posts", { method: "GET" })
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     setPosts(data);
+    //   })
+    //   .catch((error) => console.log(error));
   };
   return (
     <div className="container">
       {users && users.map((user) => <div key={user.age}>{user.name}</div>)}
-      <buttton className="btn btn-primary" onClick={fetchUserData}>
+      <button className="btn btn-primary" onClick={fetchUserData}>
         fetch user data
-      </buttton>
+      </button>
 
       {posts && posts.map((post) => <div key={post.id}>{post.title}</div>)}
     </div>
