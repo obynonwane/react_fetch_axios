@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Button from "./components/Button";
 
 const App = () => {
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  // useEffect(() => {
+  //   fetchPosts();
+  // }, []);
   const fetchUserData = () => {
     axios
       .get("http://localhost:3000/api/users")
@@ -38,10 +39,7 @@ const App = () => {
   return (
     <div className="container">
       {users && users.map((user) => <div key={user.age}>{user.name}</div>)}
-      <button className="btn btn-primary" onClick={fetchUserData}>
-        fetch user data
-      </button>
-
+      <Button handleClick={fetchPosts} />
       {posts && posts.map((post) => <div key={post.id}>{post.title}</div>)}
     </div>
   );
